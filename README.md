@@ -26,3 +26,15 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 ## How do I deploy this?
 
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+
+## PlanetScale
+
+Before you begin, make sure you have the following installed [the PlanetScale CLI](https://planetscale.com/cli).
+
+To connect to your PlanetScale database using the CLI, you will need to run the following command:
+
+```shell
+pscale db connect rentify dev --port 3309
+```
+
+Once you run this command, you will be prompted to enter your PlanetScale credentials. After entering your credentials, you will be connected to your database.
