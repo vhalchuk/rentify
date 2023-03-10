@@ -58,6 +58,7 @@ const merged = server.merge(client)
 
 let env = /** @type {MergedOutput} */ (process.env)
 
+// noinspection EqualityComparisonWithCoercionJS
 if (!!process.env.SKIP_ENV_VALIDATION == false) {
   const isServer = typeof window === 'undefined'
 
