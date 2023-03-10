@@ -16,8 +16,8 @@ const config = {
     '^~/features/(.*)$',
     '^~/entities/(.*)$',
     '^~/shared/(.*)$',
-    '^[./]'
-  ]
-};
+    '^[./]',
+  ],
+}
 
-module.exports = config;
+module.exports = config
