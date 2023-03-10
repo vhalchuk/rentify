@@ -38,3 +38,8 @@ pscale db connect rentify dev --port 3309
 ```
 
 Once you run this command, you will be prompted to enter your PlanetScale credentials. After entering your credentials, you will be connected to your database.
+
+## Feature Sliced Design
+
+This project is using the [Feature Sliced Design](https://feature-sliced.design/) architecture.
+Because FSD was initially intended to organize front-end projects only, `server` layer has been added. For now, it is not very clear how `server` layer corresponds to other ones, so it should be treated as an exception from the vertical data-flow, until the better solution is found.

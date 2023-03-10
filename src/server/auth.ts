@@ -6,8 +6,8 @@ import {
   type DefaultSession,
 } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
-import { env } from '~/env.mjs'
 import { prisma } from '~/server/db'
+import { env } from '~/shared/env.mjs'
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
