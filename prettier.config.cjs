@@ -6,7 +6,7 @@
 
 /** @type {ExtendedConfig} */
 const config = {
-  plugins: [require.resolve('prettier-plugin-tailwindcss')],
+  plugins: [],
   semi: false,
   singleQuote: true,
   importOrder: [
