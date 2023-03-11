@@ -9,6 +9,8 @@
     "lint": "next lint",
     "start": "next start",
     "format": "prettier --write --ignore-unknown .",
+    "dep-cruise": "npx depcruise --config .dependency-cruiser.js src",
+    "dep-graph": "npx depcruise src --include-only \"^src\" --config --output-type dot | dot -T svg > dependency-graph.svg",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -36,6 +38,7 @@
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "autoprefixer": "^10.4.7",
+    "dependency-cruiser": "^12.10.0",
     "eslint": "^8.34.0",
     "eslint-config-next": "^13.2.1",
     "husky": "^8.0.3",
