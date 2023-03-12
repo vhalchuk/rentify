@@ -42,3 +42,15 @@ Once you run this command, you will be prompted to enter your PlanetScale creden
 
 This project is using the [Feature Sliced Design](https://feature-sliced.design/) architecture.
 Because FSD was initially intended to organize front-end projects only, `server` layer has been added. For now, it is not very clear how `server` layer corresponds to other ones, so it should be treated as an exception from the vertical data-flow, until the better solution is found.
+
+## Integration Testing
+
+To simulate a real-world environment Docker is used for instantiating the test database each time tests are run.
+
+To run tests you will need Docker and Docker Compose installed on your machine.
+
+To run integration tests run:
+
+```shell
+npm run test:integration
+```
