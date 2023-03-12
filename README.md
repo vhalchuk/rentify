@@ -33,7 +33,7 @@ Before you begin, make sure you have the following installed [the PlanetScale CL
 To connect to your PlanetScale database using the CLI, you will need to run the following command:
 
 ```shell
-pscale db connect rentify dev --port 3309
+pscale connect rentify dev --port 3309
 ```
 
 Once you run this command, you will be prompted to enter your PlanetScale credentials. After entering your credentials, you will be connected to your database.
