@@ -45,13 +45,15 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id                String     @id @default(cuid())
+  name              String?
+  email             String?    @unique
+  emailVerified     DateTime?
+  image             String?
+  accounts          Account[]
+  sessions          Session[]
+  properties        Property[] @relation("PropertyOwner")
+  managedProperties Property[] @relation("PropertyManager")
 }
 
 model VerificationToken {
@@ -60,4 +62,47 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Property {
+  id        String    @id @default(cuid())
+  name      String
+  ownerId   String
+  owner     User      @relation("PropertyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  managerId String?
+  manager   User?     @relation("PropertyManager", fields: [managerId], references: [id], onDelete: Cascade)
+  expenses  Expense[]
+  bookings  Booking[]
+}
+
+model Expense {
+  id         String   @id @default(cuid())
+  amount     Decimal
+  createdAt  DateTime @default(now())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+}
+
+model Booking {
+  id           String      @id @default(cuid())
+  amount       Decimal
+  checkinDate  DateTime
+  checkoutDate DateTime
+  propertyId   String
+  property     Property    @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  bookingType  BookingType
+  incomes      Income[]
+}
+
+model Income {
+  id        String   @id @default(cuid())
+  amount    Decimal
+  createdAt DateTime @default(now())
+  bookingId String
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+}
+
+enum BookingType {
+  UPFRONT
+  LONG_TERM
 }
