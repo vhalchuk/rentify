@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="true" type="JavaScriptTestRunnerJest">
+    <config-file value="$PROJECT_DIR$/jest.config.ts" />
+    <node-interpreter value="$USER_HOME$/.nvm/versions/node/v14.20.0/bin/node" />
+    <node-options value="" />
+    <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+    <working-dir value="$PROJECT_DIR$" />
+    <envs>
+      <env name="NODE_ENV" value="test" />
+      <env name="SKIP_ENV_VALIDATION" value="true" />
+      <env name="DATABASE_URL" value="mysql://prisma:prisma@localhost:3306/tests" />
+    </envs>
+    <scope-kind value="ALL" />
+    <method v="2" />
+  </configuration>
+</component>
