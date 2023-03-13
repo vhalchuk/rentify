@@ -61,8 +61,9 @@ model VerificationToken {
 model Property {
   id        String    @id @default(cuid())
   name      String
-  ownerId   String
-  owner     User      @relation("PropertyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerName String?
+  ownerId   String?
+  owner     User?     @relation("PropertyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
   managerId String?
   manager   User?     @relation("PropertyManager", fields: [managerId], references: [id], onDelete: Cascade)
   expenses  Expense[]
