@@ -17,7 +17,7 @@ done
 
 # run the Prisma migration and Jest tests
 dotenv -e .env.test -- prisma db push
-dotenv -e .env.test -v NODE_ENV=test -v SKIP_ENV_VALIDATION=true -- jest
+dotenv -e .env.test -v NODE_ENV=test -v SKIP_ENV_VALIDATION=true -- jest --testMatch "**/*.integration.test.{ts,tsx}"
 
 # stop docker-compose
 docker-compose down
