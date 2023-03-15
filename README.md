@@ -41,7 +41,7 @@ Once you run this command, you will be prompted to enter your PlanetScale creden
 ## Feature Sliced Design
 
 This project is using the [Feature Sliced Design](https://feature-sliced.design/) architecture.
-Because FSD was initially intended to organize front-end projects only, `server` layer has been added. For now, it is not very clear how `server` layer corresponds to other ones, so it should be treated as an exception from the vertical data-flow, until the better solution is found.
+FSD was initially intended to organize front-end projects only. Despite being a full-stack application, this application shares the same principles with FSD of the one-way data flow.
 
 ## Integration Testing
 

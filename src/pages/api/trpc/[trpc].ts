@@ -1,11 +1,17 @@
 import { createNextApiHandler } from '@trpc/server/adapters/next'
-import { appRouter } from '~/server/trpc/root'
-import { createTRPCContext } from '~/server/trpc/trpc'
+import { propertyRouter } from '~/entities/property/api/router.server'
+import { createTRPCContext, createTRPCRouter } from '~/shared/api/index.server'
 import { env } from '~/shared/env.mjs'
+
+const router = createTRPCRouter({
+  property: propertyRouter,
+})
+
+export type ApiRouter = typeof router
 
 // export API handler
 export default createNextApiHandler({
-  router: appRouter,
+  router,
   createContext: createTRPCContext,
   onError:
     env.NODE_ENV === 'development'
