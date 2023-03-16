@@ -1,3 +1,4 @@
+import { ChakraProvider } from '@chakra-ui/react'
 import '@total-typescript/ts-reset'
 import type { NextPage } from 'next'
 import { type Session } from 'next-auth'
@@ -25,16 +26,20 @@ const MyApp = ({
   if (Component.Layout) {
     return (
       <SessionProvider session={session}>
-        <Component.Layout>
-          <Component {...pageProps} />
-        </Component.Layout>
+        <ChakraProvider>
+          <Component.Layout>
+            <Component {...pageProps} />
+          </Component.Layout>
+        </ChakraProvider>
       </SessionProvider>
     )
   }
 
   return (
     <SessionProvider session={session}>
-      <Component {...pageProps} />
+      <ChakraProvider>
+        <Component {...pageProps} />
+      </ChakraProvider>
     </SessionProvider>
   )
 }
