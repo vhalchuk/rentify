@@ -59,13 +59,14 @@ model VerificationToken {
 }
 
 model Property {
-  id        String    @id @default(cuid())
+  id        String         @id @default(cuid())
   name      String
+  status    PropertyStatus @default(NOT_RENTED)
   ownerName String?
   ownerId   String?
-  owner     User?     @relation("PropertyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  owner     User?          @relation("PropertyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
   managerId String?
-  manager   User?     @relation("PropertyManager", fields: [managerId], references: [id], onDelete: Cascade)
+  manager   User?          @relation("PropertyManager", fields: [managerId], references: [id], onDelete: Cascade)
   expenses  Expense[]
   bookings  Booking[]
 }
@@ -100,4 +101,10 @@ model Income {
 enum BookingType {
   UPFRONT
   LONG_TERM
+}
+
+enum PropertyStatus {
+  RENTED
+  NOT_RENTED
+  NOT_AVAILABLE
 }

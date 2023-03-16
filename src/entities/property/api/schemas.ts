@@ -14,6 +14,7 @@ export const createPropertyInputSchema = z.object({
 export const createPropertyOutputSchema = z.object({
   id: z.string().cuid(),
   name: z.string().min(1),
+  status: z.enum(PropertyFilterStatuses),
   ownerName: z.union([z.null(), z.string().min(1)]),
   ownerId: z.union([z.null(), z.string().cuid()]),
   managerId: z.union([z.null(), z.string().cuid()]),

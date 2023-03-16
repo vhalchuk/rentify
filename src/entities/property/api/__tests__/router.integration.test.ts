@@ -1,17 +1,37 @@
 import { faker } from '@faker-js/faker'
-import { afterAll, describe, expect, it } from '@jest/globals'
+import { afterAll, beforeAll, describe, expect, it } from '@jest/globals'
 import { TRPCError } from '@trpc/server'
 import cuid from 'cuid'
 import { propertyRouter } from '~/entities/property/api/router.server'
+import { type PropertyFilterStatus } from '~/entities/property/config/enums'
 import { prisma } from '~/shared/api/index.server'
 
-const getFakeUser = () => ({
+const createFakeUser = () => ({
   id: cuid(),
   name: faker.name.fullName(),
   email: faker.internet.email(),
 })
 
-const testUser = getFakeUser()
+const createFakeDbProperty = ({
+  ownerId = null,
+  ownerName = null,
+  managerId = null,
+  status = 'NOT_RENTED',
+}: {
+  ownerId?: string | null
+  ownerName?: string | null
+  managerId?: string | null
+  status?: PropertyFilterStatus
+} = {}) => ({
+  id: cuid(),
+  name: faker.address.secondaryAddress(),
+  ownerId,
+  ownerName,
+  managerId,
+  status,
+})
+
+const testUser = createFakeUser()
 
 const mockSession = {
   user: testUser,
@@ -30,15 +50,16 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
-  await Promise.all([prisma.user.deleteMany(), prisma.property.deleteMany()])
+  await prisma.property.deleteMany()
+  await prisma.user.delete({
+    where: {
+      id: testUser.id,
+    },
+  })
 })
 
 describe('property', () => {
   describe('create property', () => {
-    afterAll(async () => {
-      await prisma.property.deleteMany()
-    })
-
     it('should create a new property and assign user as its owner', async () => {
       const newProperty = { name: faker.address.secondaryAddress() }
 
@@ -46,6 +67,7 @@ describe('property', () => {
 
       expect(typeof createdProperty.id).toBe('string')
       expect(createdProperty.name).toBe(newProperty.name)
+      expect(createdProperty.status).toBe('NOT_RENTED')
       expect(createdProperty.ownerId).toBe(testUser.id)
       expect(createdProperty.managerId).toBeNull()
 
@@ -84,7 +106,7 @@ describe('property', () => {
     })
 
     it('should not create a new property with custom owner name & assigned owner', async () => {
-      const owner = getFakeUser()
+      const owner = createFakeUser()
 
       await prisma.user.create({ data: owner })
 
@@ -103,7 +125,7 @@ describe('property', () => {
     })
 
     it('should create a new property with assigned owner', async () => {
-      const owner = getFakeUser()
+      const owner = createFakeUser()
 
       await prisma.user.create({
         data: owner,
@@ -132,7 +154,7 @@ describe('property', () => {
     })
 
     it('should create a new property with assigned manager', async () => {
-      const manager = getFakeUser()
+      const manager = createFakeUser()
 
       await prisma.user.create({ data: manager })
 
@@ -160,66 +182,45 @@ describe('property', () => {
   })
 
   describe('get properties', () => {
-    afterAll(async () => {
+    beforeAll(async () => {
       await prisma.property.deleteMany()
     })
 
-    const manager1 = getFakeUser()
-    const manager2 = getFakeUser()
-    const owner1 = getFakeUser()
-    const owner2 = getFakeUser()
+    const manager1 = createFakeUser()
+    const manager2 = createFakeUser()
+    const owner1 = createFakeUser()
+    const owner2 = createFakeUser()
     const ownerName1 = faker.name.fullName()
     const ownerName2 = faker.name.fullName()
 
     const ownPropertiesWithoutManager = [
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
+      createFakeDbProperty({
         ownerId: testUser.id,
-        ownerName: null,
-        managerId: null,
-      },
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
+      }),
+      createFakeDbProperty({
         ownerId: testUser.id,
-        ownerName: null,
-        managerId: null,
-      },
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
-        ownerId: testUser.id,
-        ownerName: null,
-        managerId: null,
-      },
+        status: 'NOT_RENTED',
+      }),
     ]
 
     const ownPropertiesWithManager1 = [
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
+      createFakeDbProperty({
         ownerId: testUser.id,
-        ownerName: null,
         managerId: manager1.id,
-      },
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
+      }),
+      createFakeDbProperty({
         ownerId: testUser.id,
-        ownerName: null,
         managerId: manager1.id,
-      },
+        status: 'RENTED',
+      }),
     ]
 
     const ownPropertiesWithManager2 = [
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
+      createFakeDbProperty({
         ownerId: testUser.id,
-        ownerName: null,
         managerId: manager2.id,
-      },
+        status: 'NOT_AVAILABLE',
+      }),
     ]
 
     const ownProperties = [
@@ -229,74 +230,52 @@ describe('property', () => {
     ]
 
     const managedPropertiesWithOwner1 = [
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
+      createFakeDbProperty({
         ownerId: owner1.id,
-        ownerName: null,
         managerId: testUser.id,
-      },
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
+        status: 'RENTED',
+      }),
+      createFakeDbProperty({
         ownerId: owner1.id,
-        ownerName: null,
         managerId: testUser.id,
-      },
+        status: 'NOT_AVAILABLE',
+      }),
     ]
 
     const managedPropertiesWithOwner2 = [
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
+      createFakeDbProperty({
         ownerId: owner2.id,
-        ownerName: null,
         managerId: testUser.id,
-      },
+      }),
     ]
 
     const managedPropertiesWithOwnerName1 = [
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
-        ownerId: null,
+      createFakeDbProperty({
         ownerName: ownerName1,
         managerId: testUser.id,
-      },
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
-        ownerId: null,
+        status: 'RENTED',
+      }),
+      createFakeDbProperty({
         ownerName: ownerName1,
         managerId: testUser.id,
-      },
+        status: 'NOT_AVAILABLE',
+      }),
     ]
 
     const managedPropertiesWithOwnerName2 = [
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
-        ownerId: null,
+      createFakeDbProperty({
         ownerName: ownerName2,
         managerId: testUser.id,
-      },
+      }),
     ]
 
     const nonAvailableProperties = [
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
+      createFakeDbProperty({
         ownerId: owner1.id,
-        ownerName: null,
-        managerId: null,
-      },
-      {
-        id: cuid(),
-        name: faker.address.secondaryAddress(),
-        ownerId: owner1.id,
-        ownerName: null,
-        managerId: null,
-      },
+      }),
+      createFakeDbProperty({
+        ownerId: owner2.id,
+      }),
     ]
 
     const managedProperties = [
@@ -316,7 +295,6 @@ describe('property', () => {
         prisma.user.create({ data: owner1 }),
       ])
 
-      //todo: replace prisma invocations with client api
       await prisma.property.createMany({
         data: allProperties,
       })
@@ -324,8 +302,6 @@ describe('property', () => {
 
     it('should get all properties', async () => {
       const properties = await caller.getMany()
-
-      console.log('properties', properties)
 
       const sortedProperties = properties.sort((a, b) =>
         a.id.localeCompare(b.id)
@@ -337,9 +313,66 @@ describe('property', () => {
       expect(sortedProperties).toEqual(sortedAvailableProperties)
     })
 
+    it('should get properties only properties with status NOT_RENTED', async () => {
+      const properties = await caller.getMany({
+        status: 'NOT_RENTED',
+      })
+
+      const notRentedProperties = availableProperties.filter(
+        (p) => p.status === 'NOT_RENTED'
+      )
+
+      const sortedProperties = properties.sort((a, b) =>
+        a.id.localeCompare(b.id)
+      )
+      const sortedNotRentedProperties = notRentedProperties.sort((a, b) =>
+        a.id.localeCompare(b.id)
+      )
+
+      expect(sortedProperties).toEqual(sortedNotRentedProperties)
+    })
+
+    it('should get properties only properties with status RENTED', async () => {
+      const properties = await caller.getMany({
+        status: 'RENTED',
+      })
+
+      const rentedProperties = availableProperties.filter(
+        (p) => p.status === 'RENTED'
+      )
+
+      const sortedProperties = properties.sort((a, b) =>
+        a.id.localeCompare(b.id)
+      )
+      const sortedRentedProperties = rentedProperties.sort((a, b) =>
+        a.id.localeCompare(b.id)
+      )
+
+      expect(sortedProperties).toEqual(sortedRentedProperties)
+    })
+
+    it('should get properties only properties with status NOT_AVAILABLE', async () => {
+      const properties = await caller.getMany({
+        status: 'NOT_AVAILABLE',
+      })
+
+      const notAvailableProperties = availableProperties.filter(
+        (p) => p.status === 'NOT_AVAILABLE'
+      )
+
+      const sortedProperties = properties.sort((a, b) =>
+        a.id.localeCompare(b.id)
+      )
+      const sortedNotAvailableProperties = notAvailableProperties.sort((a, b) =>
+        a.id.localeCompare(b.id)
+      )
+
+      expect(sortedProperties).toEqual(sortedNotAvailableProperties)
+    })
+
     it('should get only own properties', async () => {
       const properties = await caller.getMany({
-        type: 'Own',
+        type: 'OWN',
       })
 
       const sortedProperties = properties.sort((a, b) =>
@@ -354,7 +387,7 @@ describe('property', () => {
 
     it('should get own properties managed by manager1', async () => {
       const properties = await caller.getMany({
-        type: 'Own',
+        type: 'OWN',
         managerIds: [manager1.id],
       })
 
@@ -370,7 +403,7 @@ describe('property', () => {
 
     it('should get own properties managed by manager2', async () => {
       const properties = await caller.getMany({
-        type: 'Own',
+        type: 'OWN',
         managerIds: [manager2.id],
       })
 
@@ -386,7 +419,7 @@ describe('property', () => {
 
     it('should get only managed properties', async () => {
       const properties = await caller.getMany({
-        type: 'Managed',
+        type: 'MANAGED',
       })
 
       const sortedProperties = properties.sort((a, b) =>
@@ -401,7 +434,7 @@ describe('property', () => {
 
     it('should get managed properties owned by owner1', async () => {
       const properties = await caller.getMany({
-        type: 'Managed',
+        type: 'MANAGED',
         ownerIds: [owner1.id],
       })
 
@@ -416,7 +449,7 @@ describe('property', () => {
 
     it('should get managed properties owned by owner2', async () => {
       const properties = await caller.getMany({
-        type: 'Managed',
+        type: 'MANAGED',
         ownerIds: [owner2.id],
       })
 
@@ -431,7 +464,7 @@ describe('property', () => {
 
     it('should get managed properties with ownerName1', async () => {
       const properties = await caller.getMany({
-        type: 'Managed',
+        type: 'MANAGED',
         ownerNames: [ownerName1],
       })
 
@@ -446,7 +479,7 @@ describe('property', () => {
 
     it('should get managed properties with ownerName2', async () => {
       const properties = await caller.getMany({
-        type: 'Managed',
+        type: 'MANAGED',
         ownerNames: [ownerName2],
       })
 
@@ -458,15 +491,9 @@ describe('property', () => {
 
       expect(sortedProperties).toEqual(sortedManagedPropertiesWithOwnerName2)
     })
-
-    // todo: add tests with a status filtering
   })
 
   describe('mutate property', () => {
-    afterAll(async () => {
-      await prisma.property.deleteMany()
-    })
-
     it('should mutate the name of the property', async () => {
       const newProperty = { name: faker.address.secondaryAddress() }
       const newName = 'New test property name'
@@ -517,7 +544,7 @@ describe('property', () => {
     })
 
     it('should mutate the managerId of the property', async () => {
-      const manager = getFakeUser()
+      const manager = createFakeUser()
       const newProperty = { name: faker.address.secondaryAddress() }
 
       const createdProperty = await caller.create(newProperty)
@@ -542,7 +569,7 @@ describe('property', () => {
     })
 
     it('should not mutate the ownerId of the property', async () => {
-      const owner = getFakeUser()
+      const owner = createFakeUser()
 
       const createdProperty = await caller.create({
         name: faker.address.secondaryAddress(),
@@ -560,7 +587,7 @@ describe('property', () => {
     })
 
     it('should not mutate the ownerName of the property', async () => {
-      const owner = getFakeUser()
+      const owner = createFakeUser()
 
       const createdOwner = await prisma.user.create({
         data: owner,
@@ -584,10 +611,6 @@ describe('property', () => {
   })
 
   describe('delete property', () => {
-    afterAll(async () => {
-      await prisma.property.deleteMany()
-    })
-
     it('should delete one property', async () => {
       const createdProperty = await caller.create({
         name: faker.address.secondaryAddress(),

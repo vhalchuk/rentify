@@ -10,6 +10,7 @@ import {
   mutatePropertyInputSchema,
   mutatePropertyOutputSchema,
 } from '~/entities/property/api/schemas'
+import { type PropertyFilterStatus } from '~/entities/property/config/enums'
 import { createTRPCRouter, protectedProcedure } from '~/shared/api/index.server'
 
 export const propertyRouter = createTRPCRouter({
@@ -70,10 +71,11 @@ export const propertyRouter = createTRPCRouter({
     .output(getAllPropertiesOutputSchema)
     .query(async ({ ctx, input = {} }) => {
       const userId = ctx.session.user.id
-      const { type, managerIds, ownerNames, ownerIds } = input
+      const { status, type, managerIds, ownerNames, ownerIds } = input
 
       // fuck prisma imports
       type Where = {
+        status?: PropertyFilterStatus
         managerId?:
           | {
               in: string[]
@@ -94,7 +96,9 @@ export const propertyRouter = createTRPCRouter({
 
       const where: Where = {}
 
-      if (type === 'Own') {
+      where.status = status
+
+      if (type === 'OWN') {
         if (ownerIds || ownerNames) {
           throw new TRPCError({
             code: 'BAD_REQUEST',
@@ -106,7 +110,7 @@ export const propertyRouter = createTRPCRouter({
           }
         }
         where.ownerId = userId
-      } else if (type === 'Managed') {
+      } else if (type === 'MANAGED') {
         if (managerIds) {
           throw new TRPCError({
             code: 'BAD_REQUEST',
