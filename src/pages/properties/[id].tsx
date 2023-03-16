@@ -1,8 +1,12 @@
+import { useRouter } from 'next/router'
 import { type NextPageWithLayout } from '~/pages/_app'
 import { PageLayout } from '~/widgets/pageLayout'
 
 const Page: NextPageWithLayout = () => {
-  return <p>Home page</p>
+  const router = useRouter()
+  const { id } = router.query
+
+  return <p>Property {id}</p>
 }
 
 Page.Layout = PageLayout

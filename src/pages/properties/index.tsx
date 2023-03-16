@@ -1,8 +1,14 @@
+import Link from 'next/link'
 import { type NextPageWithLayout } from '~/pages/_app'
 import { PageLayout } from '~/widgets/pageLayout'
 
 const Page: NextPageWithLayout = () => {
-  return <p>Home page</p>
+  return (
+    <div>
+      <Link href="/">Back</Link>
+      <p>Property list page</p>
+    </div>
+  )
 }
 
 Page.Layout = PageLayout
