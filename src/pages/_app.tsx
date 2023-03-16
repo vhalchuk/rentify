@@ -2,6 +2,7 @@ import '@total-typescript/ts-reset'
 import type { NextPage } from 'next'
 import { type Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
+import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
 import type { FC, ReactNode } from 'react'
 import { api } from '~/shared/api'
@@ -21,8 +22,6 @@ const MyApp = ({
   Component,
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) => {
-  // Use the layout defined at the page level, if available
-
   if (Component.Layout) {
     return (
       <SessionProvider session={session}>
@@ -40,4 +39,4 @@ const MyApp = ({
   )
 }
 
-export default api.withTRPC(MyApp)
+export default api.withTRPC(appWithTranslation(MyApp))
