@@ -12,7 +12,7 @@ export const createPropertyInputSchema = z.object({
 })
 
 export const createPropertyOutputSchema = z.object({
-  id: z.string(),
+  id: z.string().cuid(),
   name: z.string().min(1),
   status: propertyStatusSchema,
   ownerName: z.union([z.null(), z.string().min(1)]),

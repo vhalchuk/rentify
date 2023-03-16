@@ -2,9 +2,9 @@ import { faker } from '@faker-js/faker'
 import { afterAll, beforeAll, describe, expect, it } from '@jest/globals'
 import { TRPCError } from '@trpc/server'
 import cuid from 'cuid'
-import { propertyRouter } from '~/entities/property/api/router.server'
-import { PropertyStatus, PropertyType } from '~/entities/property/config/enums'
 import { prisma } from '~/shared/api/index.server'
+import { PropertyStatus, PropertyType } from '../../config/enums'
+import { propertyRouter } from '../router.server'
 
 const createFakeUser = () => ({
   id: cuid(),

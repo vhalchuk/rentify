@@ -1,18 +1,16 @@
 import { type Prisma } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
+import { createTRPCRouter, protectedProcedure } from '~/shared/api/index.server'
+import { PropertyType } from '../config/enums'
 import {
   createPropertyInputSchema,
   createPropertyOutputSchema,
-} from '~/entities/property'
-import {
   deletePropertyInputSchema,
   getAllPropertiesInputSchema,
   getAllPropertiesOutputSchema,
   mutatePropertyInputSchema,
   mutatePropertyOutputSchema,
-} from '~/entities/property/api/schemas'
-import { PropertyType } from '~/entities/property/config/enums'
-import { createTRPCRouter, protectedProcedure } from '~/shared/api/index.server'
+} from './schemas'
 
 export const propertyRouter = createTRPCRouter({
   create: protectedProcedure

@@ -1,5 +1,5 @@
 import { createNextApiHandler } from '@trpc/server/adapters/next'
-import { propertyRouter } from '~/entities/property/api/router.server'
+import { propertyRouter } from '~/entities/property/index.server'
 import { createTRPCContext, createTRPCRouter } from '~/shared/api/index.server'
 import { env } from '~/shared/env.mjs'
 
