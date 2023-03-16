@@ -7,7 +7,7 @@
     "dev": "next dev",
     "test:integration": "jest --config=jest-integration.config.ts",
     "postinstall": "prisma generate",
-    "lint": "next lint",
+    "lint": "dotenv -v SKIP_ENV_VALIDATION=true -- next lint",
     "start": "next start",
     "format": "prettier --write --ignore-unknown .",
     "depcruise:lint": "npx depcruise --config .dependency-cruiser.js src",
@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
+    "@total-typescript/ts-reset": "^0.4.2",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/eslint": "^8.21.1",
     "@types/jest": "^29.4.0",

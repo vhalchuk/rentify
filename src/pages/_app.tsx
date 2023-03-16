@@ -1,3 +1,4 @@
+import '@total-typescript/ts-reset'
 import type { NextPage } from 'next'
 import { type Session } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'
