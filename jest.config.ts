@@ -11,8 +11,6 @@ export default {
     '^.+\\.mjs$': 'ts-jest',
   },
   roots: ['<rootDir>'],
-  // The naming convention for test files
-  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$',
   modulePaths: [compilerOptions.baseUrl], // <-- This will be set to 'baseUrl' value
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/',
