@@ -1,9 +1,13 @@
-export const PropertyFilterTypes = ['OWN', 'MANAGED'] as const
-export type PropertyFiltersType = (typeof PropertyFilterTypes)[number]
+export const PropertyType = {
+  Own: 'OWN',
+  Managed: 'MANAGED',
+} as const
+export type PropertyType = (typeof PropertyType)[keyof typeof PropertyType]
 
-export const PropertyFilterStatuses = [
-  'RENTED',
-  'NOT_RENTED',
-  'NOT_AVAILABLE',
-] as const
-export type PropertyFilterStatus = (typeof PropertyFilterStatuses)[number]
+export const PropertyStatus = {
+  Rented: 'RENTED',
+  NotRented: 'NOT_RENTED',
+  NotAvailable: 'NOT_AVAILABLE',
+} as const
+export type PropertyStatus =
+  (typeof PropertyStatus)[keyof typeof PropertyStatus]

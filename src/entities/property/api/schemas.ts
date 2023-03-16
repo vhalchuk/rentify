@@ -1,8 +1,8 @@
 import { z } from 'zod'
-import {
-  PropertyFilterStatuses,
-  PropertyFilterTypes,
-} from '~/entities/property/config/enums'
+import { PropertyStatus, PropertyType } from '~/entities/property/config/enums'
+
+const propertyTypeSchema = z.nativeEnum(PropertyType)
+const propertyStatusSchema = z.nativeEnum(PropertyStatus)
 
 export const createPropertyInputSchema = z.object({
   name: z.string().min(1),
@@ -12,9 +12,9 @@ export const createPropertyInputSchema = z.object({
 })
 
 export const createPropertyOutputSchema = z.object({
-  id: z.string().cuid(),
+  id: z.string(),
   name: z.string().min(1),
-  status: z.enum(PropertyFilterStatuses),
+  status: propertyStatusSchema,
   ownerName: z.union([z.null(), z.string().min(1)]),
   ownerId: z.union([z.null(), z.string().cuid()]),
   managerId: z.union([z.null(), z.string().cuid()]),
@@ -22,8 +22,8 @@ export const createPropertyOutputSchema = z.object({
 
 export const getAllPropertiesInputSchema = z
   .object({
-    status: z.enum(PropertyFilterStatuses).optional(),
-    type: z.enum(PropertyFilterTypes).optional(),
+    status: propertyStatusSchema.optional(),
+    type: propertyTypeSchema.optional(),
     ownerIds: z.array(z.string().cuid()).optional(),
     ownerNames: z.array(z.string()).optional(),
     managerIds: z.array(z.string().cuid()).optional(),

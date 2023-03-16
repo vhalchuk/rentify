@@ -3,7 +3,7 @@ import { afterAll, beforeAll, describe, expect, it } from '@jest/globals'
 import { TRPCError } from '@trpc/server'
 import cuid from 'cuid'
 import { propertyRouter } from '~/entities/property/api/router.server'
-import { type PropertyFilterStatus } from '~/entities/property/config/enums'
+import { PropertyStatus, PropertyType } from '~/entities/property/config/enums'
 import { prisma } from '~/shared/api/index.server'
 
 const createFakeUser = () => ({
@@ -16,12 +16,12 @@ const createFakeDbProperty = ({
   ownerId = null,
   ownerName = null,
   managerId = null,
-  status = 'NOT_RENTED',
+  status = PropertyStatus.NotRented,
 }: {
   ownerId?: string | null
   ownerName?: string | null
   managerId?: string | null
-  status?: PropertyFilterStatus
+  status?: PropertyStatus
 } = {}) => ({
   id: cuid(),
   name: faker.address.secondaryAddress(),
@@ -67,7 +67,7 @@ describe('property', () => {
 
       expect(typeof createdProperty.id).toBe('string')
       expect(createdProperty.name).toBe(newProperty.name)
-      expect(createdProperty.status).toBe('NOT_RENTED')
+      expect(createdProperty.status).toBe(PropertyStatus.NotRented)
       expect(createdProperty.ownerId).toBe(testUser.id)
       expect(createdProperty.managerId).toBeNull()
 
@@ -199,7 +199,7 @@ describe('property', () => {
       }),
       createFakeDbProperty({
         ownerId: testUser.id,
-        status: 'NOT_RENTED',
+        status: PropertyStatus.NotRented,
       }),
     ]
 
@@ -211,7 +211,7 @@ describe('property', () => {
       createFakeDbProperty({
         ownerId: testUser.id,
         managerId: manager1.id,
-        status: 'RENTED',
+        status: PropertyStatus.Rented,
       }),
     ]
 
@@ -219,7 +219,7 @@ describe('property', () => {
       createFakeDbProperty({
         ownerId: testUser.id,
         managerId: manager2.id,
-        status: 'NOT_AVAILABLE',
+        status: PropertyStatus.NotAvailable,
       }),
     ]
 
@@ -233,12 +233,12 @@ describe('property', () => {
       createFakeDbProperty({
         ownerId: owner1.id,
         managerId: testUser.id,
-        status: 'RENTED',
+        status: PropertyStatus.Rented,
       }),
       createFakeDbProperty({
         ownerId: owner1.id,
         managerId: testUser.id,
-        status: 'NOT_AVAILABLE',
+        status: PropertyStatus.NotAvailable,
       }),
     ]
 
@@ -253,12 +253,12 @@ describe('property', () => {
       createFakeDbProperty({
         ownerName: ownerName1,
         managerId: testUser.id,
-        status: 'RENTED',
+        status: PropertyStatus.Rented,
       }),
       createFakeDbProperty({
         ownerName: ownerName1,
         managerId: testUser.id,
-        status: 'NOT_AVAILABLE',
+        status: PropertyStatus.NotAvailable,
       }),
     ]
 
@@ -315,11 +315,11 @@ describe('property', () => {
 
     it('should get properties only properties with status NOT_RENTED', async () => {
       const properties = await caller.getMany({
-        status: 'NOT_RENTED',
+        status: PropertyStatus.NotRented,
       })
 
       const notRentedProperties = availableProperties.filter(
-        (p) => p.status === 'NOT_RENTED'
+        (p) => p.status === PropertyStatus.NotRented
       )
 
       const sortedProperties = properties.sort((a, b) =>
@@ -334,11 +334,11 @@ describe('property', () => {
 
     it('should get properties only properties with status RENTED', async () => {
       const properties = await caller.getMany({
-        status: 'RENTED',
+        status: PropertyStatus.Rented,
       })
 
       const rentedProperties = availableProperties.filter(
-        (p) => p.status === 'RENTED'
+        (p) => p.status === PropertyStatus.Rented
       )
 
       const sortedProperties = properties.sort((a, b) =>
@@ -353,11 +353,11 @@ describe('property', () => {
 
     it('should get properties only properties with status NOT_AVAILABLE', async () => {
       const properties = await caller.getMany({
-        status: 'NOT_AVAILABLE',
+        status: PropertyStatus.NotAvailable,
       })
 
       const notAvailableProperties = availableProperties.filter(
-        (p) => p.status === 'NOT_AVAILABLE'
+        (p) => p.status === PropertyStatus.NotAvailable
       )
 
       const sortedProperties = properties.sort((a, b) =>
@@ -372,7 +372,7 @@ describe('property', () => {
 
     it('should get only own properties', async () => {
       const properties = await caller.getMany({
-        type: 'OWN',
+        type: PropertyType.Own,
       })
 
       const sortedProperties = properties.sort((a, b) =>
@@ -387,7 +387,7 @@ describe('property', () => {
 
     it('should get own properties managed by manager1', async () => {
       const properties = await caller.getMany({
-        type: 'OWN',
+        type: PropertyType.Own,
         managerIds: [manager1.id],
       })
 
@@ -403,7 +403,7 @@ describe('property', () => {
 
     it('should get own properties managed by manager2', async () => {
       const properties = await caller.getMany({
-        type: 'OWN',
+        type: PropertyType.Own,
         managerIds: [manager2.id],
       })
 
@@ -419,7 +419,7 @@ describe('property', () => {
 
     it('should get only managed properties', async () => {
       const properties = await caller.getMany({
-        type: 'MANAGED',
+        type: PropertyType.Managed,
       })
 
       const sortedProperties = properties.sort((a, b) =>
@@ -434,7 +434,7 @@ describe('property', () => {
 
     it('should get managed properties owned by owner1', async () => {
       const properties = await caller.getMany({
-        type: 'MANAGED',
+        type: PropertyType.Managed,
         ownerIds: [owner1.id],
       })
 
@@ -449,7 +449,7 @@ describe('property', () => {
 
     it('should get managed properties owned by owner2', async () => {
       const properties = await caller.getMany({
-        type: 'MANAGED',
+        type: PropertyType.Managed,
         ownerIds: [owner2.id],
       })
 
@@ -464,7 +464,7 @@ describe('property', () => {
 
     it('should get managed properties with ownerName1', async () => {
       const properties = await caller.getMany({
-        type: 'MANAGED',
+        type: PropertyType.Managed,
         ownerNames: [ownerName1],
       })
 
@@ -479,7 +479,7 @@ describe('property', () => {
 
     it('should get managed properties with ownerName2', async () => {
       const properties = await caller.getMany({
-        type: 'MANAGED',
+        type: PropertyType.Managed,
         ownerNames: [ownerName2],
       })
 

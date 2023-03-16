@@ -1,3 +1,4 @@
+import { type Prisma } from '@prisma/client'
 import { TRPCError } from '@trpc/server'
 import {
   createPropertyInputSchema,
@@ -10,7 +11,7 @@ import {
   mutatePropertyInputSchema,
   mutatePropertyOutputSchema,
 } from '~/entities/property/api/schemas'
-import { type PropertyFilterStatus } from '~/entities/property/config/enums'
+import { PropertyType } from '~/entities/property/config/enums'
 import { createTRPCRouter, protectedProcedure } from '~/shared/api/index.server'
 
 export const propertyRouter = createTRPCRouter({
@@ -73,32 +74,11 @@ export const propertyRouter = createTRPCRouter({
       const userId = ctx.session.user.id
       const { status, type, managerIds, ownerNames, ownerIds } = input
 
-      // fuck prisma imports
-      type Where = {
-        status?: PropertyFilterStatus
-        managerId?:
-          | {
-              in: string[]
-            }
-          | string
-        ownerId?:
-          | {
-              in: string[]
-            }
-          | string
-        ownerName?:
-          | {
-              in: string[]
-            }
-          | string
-        OR?: [{ ownerId: string }, { managerId: string }]
-      }
-
-      const where: Where = {}
+      const where: Prisma.PropertyWhereInput = {}
 
       where.status = status
 
-      if (type === 'OWN') {
+      if (type === PropertyType.Own) {
         if (ownerIds || ownerNames) {
           throw new TRPCError({
             code: 'BAD_REQUEST',
@@ -110,7 +90,7 @@ export const propertyRouter = createTRPCRouter({
           }
         }
         where.ownerId = userId
-      } else if (type === 'MANAGED') {
+      } else if (type === PropertyType.Managed) {
         if (managerIds) {
           throw new TRPCError({
             code: 'BAD_REQUEST',
