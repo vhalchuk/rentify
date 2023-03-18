@@ -8,9 +8,9 @@ import {
 } from '@chakra-ui/react'
 import { useScroll } from 'framer-motion'
 import { type FC, useEffect, useRef, useState } from 'react'
-import { HeaderDrawer } from '~/widgets/pageLayout/ui/HeaderDrawer'
-import { MobileNavButton } from '~/widgets/pageLayout/ui/MobileNavButton'
-import { Logo } from '~/shared/icons/Logo'
+import { Logo } from '~/shared/icons/logo'
+import { HeaderDrawer } from './header-drawer'
+import { MobileNavButton } from './mobile-nav-button'
 
 export const Header: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()

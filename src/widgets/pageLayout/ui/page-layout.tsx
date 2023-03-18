@@ -1,8 +1,8 @@
 import { Box, Flex, VStack } from '@chakra-ui/react'
 import { type FC, type ReactNode } from 'react'
-import { Header } from '~/widgets/pageLayout/ui/Header'
-import { Navigation } from '~/widgets/pageLayout/ui/Navigation'
-import { RightSidebar } from '~/widgets/pageLayout/ui/RightSidebar'
+import { Header } from './header'
+import { Navigation } from './navigation'
+import { RightSidebar } from './right-sidebar'
 
 export type PageLayoutProps = {
   children: ReactNode

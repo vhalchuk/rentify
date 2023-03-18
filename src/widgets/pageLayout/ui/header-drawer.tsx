@@ -8,7 +8,7 @@ import {
 import { HStack, IconButton, Stack, useColorModeValue } from '@chakra-ui/react'
 import { type FC } from 'react'
 import { CgProfile, VscGlobe } from 'react-icons/all'
-import { Navigation } from '~/widgets/pageLayout/ui/Navigation'
+import { Navigation } from './navigation'
 
 type NavigationDrawerProps = {
   isOpen: boolean
