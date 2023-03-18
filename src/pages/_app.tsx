@@ -16,13 +16,6 @@ const config: ThemeConfig = {
 // todo: extract
 const theme = extendTheme({
   config,
-  styles: {
-    global: (props: { colorMode: 'dark' | 'light' }) => ({
-      'html, body': {
-        background: props.colorMode === 'dark' ? 'white' : 'gray.100',
-      },
-    }),
-  },
 })
 
 export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<

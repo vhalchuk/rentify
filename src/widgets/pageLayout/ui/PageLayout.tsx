@@ -1,7 +1,8 @@
-import { Box, Flex, Heading } from '@chakra-ui/react'
-import { Funnel, List, MagnifyingGlass } from '@phosphor-icons/react'
-import Link from 'next/link'
+import { Box, Flex, VStack } from '@chakra-ui/react'
 import { type FC, type ReactNode } from 'react'
+import { Header } from '~/widgets/pageLayout/ui/Header'
+import { Navigation } from '~/widgets/pageLayout/ui/Navigation'
+import { RightSidebar } from '~/widgets/pageLayout/ui/RightSidebar'
 
 export type PageLayoutProps = {
   children: ReactNode
@@ -9,41 +10,44 @@ export type PageLayoutProps = {
 
 export const PageLayout: FC<PageLayoutProps> = ({ children }) => {
   return (
-    <Box mt="80px">
-      <Flex
-        as="header"
-        position="fixed"
-        top="0"
-        width="100%"
-        justifyContent="space-between"
-        alignItems="center"
-        p={4}
-        zIndex="10"
-        borderBottom="1px"
-        borderBottomColor="gray.200"
-        backgroundColor="white"
-        gap="6"
-      >
-        <Flex alignItems="center" gap="6">
-          <List size={24} weight="bold" />
-          <Heading as="h1" size="lg" color="green.500">
-            Rentify
-          </Heading>
-        </Flex>
-        <Flex alignItems="center" gap="6">
-          <MagnifyingGlass size={24} weight="bold" />
-          <Funnel size={24} weight="bold" />
-        </Flex>
-      </Flex>
-      <nav>
-        <ul>
-          <li>
-            <Link href="/properties">Properties</Link>
-          </li>
-        </ul>
-      </nav>
-      {children}
-      <aside>aside</aside>
+    <Box>
+      <Header />
+      <Box as="main" w="full" maxW="8xl" mx="auto">
+        <Box display={{ md: 'flex' }}>
+          <Box
+            aria-label="Main Navigation"
+            as="nav"
+            pos="sticky"
+            overscrollBehavior="contain"
+            top="6.5rem"
+            w="240px"
+            h="calc(100vh - 8.125rem)"
+            pb="6"
+            pt="4"
+            overflowY="auto"
+            flexShrink={0}
+            display={{ base: 'none', md: 'block' }}
+          >
+            <VStack>
+              <Navigation />
+            </VStack>
+          </Box>
+          <Box flexGrow={1}>
+            <Flex>
+              <Box
+                minW="0"
+                flex="auto"
+                px={{ base: '4', sm: '6', xl: '8' }}
+                pt="10"
+                height="200vh"
+              >
+                {children}
+              </Box>
+              <RightSidebar />
+            </Flex>
+          </Box>
+        </Box>
+      </Box>
     </Box>
   )
 }

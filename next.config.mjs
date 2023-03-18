@@ -20,5 +20,6 @@ const config = {
    * @see https://github.com/vercel/next.js/issues/41980
    */
   i18n,
+  transpilePackages: ['react-icons'],
 }
 export default config
