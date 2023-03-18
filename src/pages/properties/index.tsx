@@ -1,6 +1,8 @@
+import { type GetServerSidePropsContext } from 'next'
 import Link from 'next/link'
 import { type NextPageWithLayout } from '~/pages/_app'
 import { PageLayout } from '~/shared/pageLayout'
+import { requireAuthentication } from '~/shared/utils/requireAuthentication.server'
 
 const Page: NextPageWithLayout = () => {
   return (
@@ -9,6 +11,10 @@ const Page: NextPageWithLayout = () => {
       <p>Property list page</p>
     </div>
   )
+}
+
+export function getServerSideProps(context: GetServerSidePropsContext) {
+  return requireAuthentication(context)
 }
 
 Page.Layout = PageLayout

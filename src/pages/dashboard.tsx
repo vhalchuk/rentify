@@ -1,14 +1,16 @@
 import { type GetServerSidePropsContext } from 'next'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 import { type NextPageWithLayout } from '~/pages/_app'
 import { PageLayout } from '~/shared/pageLayout'
 import { requireAuthentication } from '~/shared/utils/requireAuthentication.server'
 
 const Page: NextPageWithLayout = () => {
-  const router = useRouter()
-  const { id } = router.query
-
-  return <p>Property {id}</p>
+  return (
+    <div>
+      <Link href="/">Back</Link>
+      <p>Dashboard page</p>
+    </div>
+  )
 }
 
 export function getServerSideProps(context: GetServerSidePropsContext) {
