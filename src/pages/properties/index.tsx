@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { type NextPageWithLayout } from '~/pages/_app'
-import { PageLayout } from '~/widgets/pageLayout'
+import { PageLayout } from '~/shared/pageLayout'
 
 const Page: NextPageWithLayout = () => {
   return (

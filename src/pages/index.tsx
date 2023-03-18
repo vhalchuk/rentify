@@ -1,7 +1,7 @@
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { type NextPageWithLayout } from '~/pages/_app'
-import { PageLayout } from '~/widgets/pageLayout'
+import { PageLayout } from '~/shared/pageLayout'
 import { type Locale } from '~/shared/types/locale'
 
 export const getServerSideProps = async ({ locale }: { locale: Locale }) => ({
