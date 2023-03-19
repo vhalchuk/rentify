@@ -11,5 +11,12 @@
   "ukrainian": "Ukrainian",
   "account": "Account",
   "googleSignIn": "Continue with Google",
-  "language": "Language"
+  "language": "Language",
+  "notRented": "Not rented",
+  "rented": "Rented",
+  "notAvailable": "Not available",
+  "name": "Name",
+  "status": "Status",
+  "owner": "Owner",
+  "manager": "Manager"
 }

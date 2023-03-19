@@ -118,6 +118,18 @@ export const propertyRouter = createTRPCRouter({
 
       return ctx.prisma.property.findMany({
         where,
+        include: {
+          owner: {
+            select: {
+              name: true,
+            },
+          },
+          manager: {
+            select: {
+              name: true,
+            },
+          },
+        },
       })
     }),
   mutate: protectedProcedure

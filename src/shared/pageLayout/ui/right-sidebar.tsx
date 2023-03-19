@@ -18,7 +18,6 @@ export const RightSidebar: FC = () => {
       display={{ base: 'none', xl: 'block' }}
     >
       <div id="right-sidebar-portal-container" />
-      Whatever
     </Box>
   )
 }

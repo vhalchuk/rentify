@@ -11,5 +11,12 @@
   "ukrainian": "Українська",
   "account": "Акаунт",
   "googleSignIn": "Продовжити з Google",
-  "language": "Мова"
+  "language": "Мова",
+  "notRented": "Не здається",
+  "rented": "Здаються",
+  "notAvailable": "Недоступні",
+  "name": "Назва",
+  "status": "Статус",
+  "owner": "Власник",
+  "manager": "Управлінець"
 }

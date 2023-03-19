@@ -30,7 +30,29 @@ export const getAllPropertiesInputSchema = z
   })
   .optional()
 
-export const getAllPropertiesOutputSchema = z.array(createPropertyOutputSchema)
+export const getAllPropertiesOutputSchema = z.array(
+  z.object({
+    id: z.string().cuid(),
+    name: z.string().min(1),
+    status: propertyStatusSchema,
+    ownerName: z.union([z.null(), z.string().min(1)]),
+    ownerId: z.union([z.null(), z.string().cuid()]),
+    managerId: z.union([z.null(), z.string().cuid()]),
+    //todo: flatten the structure
+    owner: z.union([
+      z.object({
+        name: z.union([z.string(), z.null()]),
+      }),
+      z.null(),
+    ]),
+    manager: z.union([
+      z.object({
+        name: z.union([z.string(), z.null()]),
+      }),
+      z.null(),
+    ]),
+  })
+)
 
 export const mutatePropertyInputSchema = z.object({
   id: z.string().cuid(),
