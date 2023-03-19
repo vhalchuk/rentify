@@ -57,7 +57,6 @@ export const PageLayout: FC<PageLayoutProps> = ({ children }) => {
                 flex="auto"
                 px={{ base: '4', sm: '6', xl: '8' }}
                 pt="10"
-                height="200vh"
               >
                 {children}
               </Box>
