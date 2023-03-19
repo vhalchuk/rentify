@@ -1,9 +1,23 @@
 import { Box, Button, Center } from '@chakra-ui/react'
 import { type GetServerSidePropsContext, type NextPage } from 'next'
 import { getSession, signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import { BsGoogle } from 'react-icons/all'
 
 const Page: NextPage = () => {
+  const router = useRouter()
+
+  const handleSignIn = () => {
+    const callbackUrl =
+      typeof router.query.redirectURL === 'string'
+        ? router.query.redirectURL
+        : '/dashboard'
+
+    void signIn('google', {
+      callbackUrl,
+    })
+  }
+
   return (
     <Box
       minHeight="100vh"
@@ -15,7 +29,7 @@ const Page: NextPage = () => {
         <Button
           leftIcon={<BsGoogle />}
           colorScheme="blue"
-          onClick={() => void signIn('google')}
+          onClick={handleSignIn}
         >
           Continue with Google
         </Button>

@@ -9,9 +9,12 @@ export const requireAuthentication = async (
   const session = await getSession(context)
 
   if (!session) {
+    const requestedUrl = context.req.url
+    const redirectURL = encodeURIComponent(requestedUrl || '')
+
     return {
       redirect: {
-        destination: '/authenticate',
+        destination: `/authenticate?redirectURL=${redirectURL}`,
         permanent: false,
       },
     }
