@@ -1,5 +1,16 @@
-import { Box, Flex, VStack } from '@chakra-ui/react'
+import {
+  Box,
+  Flex,
+  Heading,
+  HStack,
+  useDisclosure,
+  VStack,
+} from '@chakra-ui/react'
 import { type FC, type ReactNode } from 'react'
+import { Logo } from '~/shared/icons/logo'
+import { HeaderDrawer } from '~/shared/pageLayout/ui/header-drawer'
+import { MobileNavButton } from '~/shared/pageLayout/ui/mobile-nav-button'
+import { UserMenuButton } from '~/shared/pageLayout/ui/user-menu-button'
 import { Header } from './header'
 import { Navigation } from './navigation'
 import { RightSidebar } from './right-sidebar'
@@ -9,9 +20,26 @@ export type PageLayoutProps = {
 }
 
 export const PageLayout: FC<PageLayoutProps> = ({ children }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
   return (
-    <Box>
-      <Header />
+    <>
+      <Header>
+        <HeaderDrawer isOpen={isOpen} onClose={onClose} />
+        <Flex alignItems="center" gap={4}>
+          <MobileNavButton onClick={onOpen} />
+          <HStack display={{ base: 'none', md: 'flex' }} gap={2}>
+            <Logo />
+            <Heading as="h1" fontSize="2rem" color="green.500">
+              Rentify
+            </Heading>
+          </HStack>
+        </Flex>
+        <Flex alignItems="center" flexGrow={1}>
+          <div id="header-portal-container" />
+        </Flex>
+        <UserMenuButton />
+      </Header>
       <Box as="main" w="full" maxW="8xl" mx="auto">
         <Box display={{ md: 'flex' }}>
           <Box
@@ -48,6 +76,6 @@ export const PageLayout: FC<PageLayoutProps> = ({ children }) => {
           </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   )
 }

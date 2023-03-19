@@ -1,11 +1,13 @@
 import { Box, Button, Center } from '@chakra-ui/react'
 import { type GetServerSidePropsContext, type NextPage } from 'next'
 import { getSession, signIn } from 'next-auth/react'
+import { useTranslation } from 'next-i18next'
 import { useRouter } from 'next/router'
 import { BsGoogle } from 'react-icons/all'
 
 const Page: NextPage = () => {
   const router = useRouter()
+  const { t } = useTranslation()
 
   const handleSignIn = () => {
     const callbackUrl =
@@ -28,10 +30,10 @@ const Page: NextPage = () => {
       <Center>
         <Button
           leftIcon={<BsGoogle />}
-          colorScheme="blue"
           onClick={handleSignIn}
+          variant="outline"
         >
-          Continue with Google
+          {t('googleSignIn')}
         </Button>
       </Center>
     </Box>

@@ -9,5 +9,7 @@
   "signOut": "Sign out",
   "english": "English",
   "ukrainian": "Ukrainian",
-  "account": "Account"
+  "account": "Account",
+  "googleSignIn": "Continue with Google",
+  "language": "Language"
 }
