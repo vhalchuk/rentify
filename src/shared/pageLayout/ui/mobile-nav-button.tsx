@@ -10,7 +10,7 @@ export const MobileNavButton: FC = () => {
     <>
       <HeaderDrawer isOpen={isOpen} onClose={onClose} />
       <IconButton
-        display={{ base: 'flex', md: 'none' }}
+        display={{ base: 'flex', lg: 'none' }}
         aria-label="Open menu"
         fontSize="20px"
         color={useColorModeValue('gray.800', 'inherit')}

@@ -17,7 +17,7 @@ export const PageLayout: FC<PageLayoutProps> = ({ children }) => {
       <Header>
         <Flex alignItems="center" gap={4}>
           <MobileNavButton />
-          <HStack display={{ base: 'none', md: 'flex' }} gap={2}>
+          <HStack display={{ base: 'none', lg: 'flex' }} gap={2}>
             <Logo />
             <Heading as="h1" fontSize="2rem" color="green.500">
               Rentify
@@ -30,7 +30,7 @@ export const PageLayout: FC<PageLayoutProps> = ({ children }) => {
         <UserMenuButton />
       </Header>
       <Box w="full" maxW="8xl" mx="auto">
-        <Box display={{ md: 'flex' }}>
+        <Box display={{ lg: 'flex' }}>
           <Box
             aria-label="Main Navigation"
             as="nav"
@@ -43,7 +43,7 @@ export const PageLayout: FC<PageLayoutProps> = ({ children }) => {
             pt="4"
             overflowY="auto"
             flexShrink={0}
-            display={{ base: 'none', md: 'block' }}
+            display={{ base: 'none', lg: 'block' }}
           >
             <VStack>
               <Navigation />
