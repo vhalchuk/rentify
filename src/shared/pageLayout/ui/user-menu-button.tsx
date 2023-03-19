@@ -40,6 +40,7 @@ export const UserMenuButton: FC = () => {
         color={useColorModeValue('gray.800', 'inherit')}
         fontSize="24px"
         variant="ghost"
+        display={{ base: 'none', md: 'flex' }}
       />
       <MenuList>
         <MenuGroup title={accountTitle as string}>

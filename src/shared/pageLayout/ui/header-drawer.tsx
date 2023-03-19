@@ -5,9 +5,9 @@ import {
   DrawerHeader,
   DrawerOverlay,
 } from '@chakra-ui/modal'
-import { HStack, IconButton, Stack, useColorModeValue } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react'
 import { type FC } from 'react'
-import { CgProfile, VscGlobe } from 'react-icons/all'
+import { HeaderDrawerUserMenu } from './header-drawer-user-menu'
 import { Navigation } from './navigation'
 
 type NavigationDrawerProps = {
@@ -23,23 +23,8 @@ export const HeaderDrawer: FC<NavigationDrawerProps> = ({
     <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerHeader borderBottomWidth="1px">
-          <HStack justifyContent="space-between">
-            <IconButton
-              aria-label="Expand user menu"
-              fontSize="24px"
-              color={useColorModeValue('gray.800', 'inherit')}
-              variant="ghost"
-              icon={<CgProfile />}
-            />
-            <IconButton
-              aria-label="Expand languages menu"
-              fontSize="24px"
-              color={useColorModeValue('gray.800', 'inherit')}
-              variant="ghost"
-              icon={<VscGlobe />}
-            />
-          </HStack>
+        <DrawerHeader borderBottomWidth="1px" p={0}>
+          <HeaderDrawerUserMenu />
         </DrawerHeader>
         <DrawerBody>
           <Stack role="group" mt="4" as="nav">
