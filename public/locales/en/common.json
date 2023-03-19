@@ -1,3 +1,13 @@
 {
-  "hello-frontend": "Hello from the frontend"
+  "dashboard": "Dashboard",
+  "calendar": "Calendar",
+  "properties": "Properties",
+  "income": "Income",
+  "expenses": "Expenses",
+  "managers": "Managers",
+  "owners": "Owners",
+  "signOut": "Sign out",
+  "english": "English",
+  "ukrainian": "Ukrainian",
+  "account": "Account"
 }

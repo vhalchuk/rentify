@@ -1,3 +1,13 @@
 {
-  "hello-frontend": "Привіт з фронт-енду"
+  "dashboard": "Інформаційна панель",
+  "calendar": "Календар",
+  "properties": "Власність",
+  "income": "Дохід",
+  "expenses": "Витрати",
+  "managers": "Менеджери",
+  "owners": "Власники",
+  "signOut": "Вийти",
+  "english": "Англійська",
+  "ukrainian": "Українська",
+  "account": "Акаунт"
 }
