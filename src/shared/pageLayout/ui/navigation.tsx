@@ -1,4 +1,5 @@
 import { chakra, type PropsOf, useColorModeValue } from '@chakra-ui/react'
+import { useTranslation } from 'next-i18next'
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import { type FC, forwardRef, type Ref } from 'react'
@@ -38,44 +39,45 @@ const StyledLink = forwardRef(function StyledLink(
 const routes = [
   {
     href: '/dashboard',
-    translation: 'Dashboard',
+    translationKey: 'dashboard',
   },
   {
     href: '/calendar',
-    translation: 'Calendar',
+    translationKey: 'calendar',
   },
   {
     href: '/properties',
-    translation: 'Properties',
+    translationKey: 'properties',
   },
   {
     href: '/income',
-    translation: 'Income',
+    translationKey: 'income',
   },
   {
     href: '/expenses',
-    translation: 'Expenses',
+    translationKey: 'expenses',
   },
   {
     href: '/managers',
-    translation: 'Managers',
+    translationKey: 'managers',
   },
   {
     href: '/owners',
-    translation: 'Owners',
+    translationKey: 'owners',
   },
 ]
 
 export const Navigation: FC = () => {
   const router = useRouter()
   const currentPath = router.asPath
+  const { t } = useTranslation()
 
   return (
     <>
-      {routes.map(({ href, translation }) => (
+      {routes.map(({ href, translationKey }) => (
         <NextLink href={href} passHref key={href} style={{ width: '100%' }}>
           <StyledLink isActive={currentPath.startsWith(href)}>
-            {translation}
+            {t(translationKey)}
           </StyledLink>
         </NextLink>
       ))}

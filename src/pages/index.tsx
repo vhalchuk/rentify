@@ -1,10 +1,10 @@
-import { Button, VStack } from '@chakra-ui/react'
-import { signOut, useSession } from 'next-auth/react'
+import { VStack } from '@chakra-ui/react'
+import { type GetServerSidePropsContext } from 'next'
+import { useSession } from 'next-auth/react'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import Link from 'next/link'
-import { HiOutlineLogout } from 'react-icons/all'
 import { type NextPageWithLayout } from '~/pages/_app'
-import { type Locale } from '~/shared/types/locale'
+import { type WithLocale } from '~/shared/types/locale'
 
 const Page: NextPageWithLayout = () => {
   const session = useSession()
@@ -13,13 +13,6 @@ const Page: NextPageWithLayout = () => {
     return (
       <VStack>
         <Link href="/dashboard">Dashboard</Link>
-        <Button
-          leftIcon={<HiOutlineLogout />}
-          colorScheme="blue"
-          onClick={() => void signOut()}
-        >
-          Sign out
-        </Button>
       </VStack>
     )
   }
@@ -27,7 +20,9 @@ const Page: NextPageWithLayout = () => {
   return <Link href="/authenticate">Authenticate</Link>
 }
 
-export const getServerSideProps = async ({ locale }: { locale: Locale }) => ({
+export const getServerSideProps = async ({
+  locale,
+}: WithLocale<GetServerSidePropsContext>) => ({
   props: {
     ...(await serverSideTranslations(locale, ['common'])),
   },

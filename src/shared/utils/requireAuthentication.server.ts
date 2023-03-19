@@ -1,10 +1,13 @@
 import { type GetServerSidePropsContext } from 'next'
 import { type Session } from 'next-auth'
 import { getSession } from 'next-auth/react'
+import { type GetServerSidePropsResult } from 'next/types'
 
 export const requireAuthentication = async (
   context: GetServerSidePropsContext,
-  cb?: (context: GetServerSidePropsContext, session: Session) => void
+  cb?: (
+    session: Session
+  ) => Promise<GetServerSidePropsResult<Record<string, unknown>>>
 ) => {
   const session = await getSession(context)
 
@@ -21,7 +24,7 @@ export const requireAuthentication = async (
   }
 
   if (cb) {
-    return cb(context, session)
+    return cb(session)
   }
 
   return { props: {} }

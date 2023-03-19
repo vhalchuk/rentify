@@ -1,5 +1,4 @@
 import {
-  Box,
   Container,
   Flex,
   Heading,
@@ -9,6 +8,7 @@ import {
 import { useScroll } from 'framer-motion'
 import { type FC, useEffect, useRef, useState } from 'react'
 import { Logo } from '~/shared/icons/logo'
+import { UserMenuButton } from '~/shared/pageLayout/ui/user-menu-button'
 import { HeaderDrawer } from './header-drawer'
 import { MobileNavButton } from './mobile-nav-button'
 
@@ -57,11 +57,10 @@ export const Header: FC = () => {
               </Heading>
             </HStack>
           </Flex>
-          <Box flexGrow={1}>
-            <Flex alignItems="center" gap="6">
-              <div id="header-portal-container" />
-            </Flex>
-          </Box>
+          <Flex alignItems="center" flexGrow={1}>
+            <div id="header-portal-container" />
+          </Flex>
+          <UserMenuButton />
         </Container>
       </Flex>
     </>
