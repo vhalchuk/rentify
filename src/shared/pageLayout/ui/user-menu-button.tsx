@@ -29,8 +29,6 @@ export const UserMenuButton: FC = () => {
     void router.push(path, path, { locale })
   }
 
-  const accountTitle = sessionData?.user?.name || t('account')
-
   return (
     <Menu>
       <MenuButton
@@ -43,7 +41,7 @@ export const UserMenuButton: FC = () => {
         display={{ base: 'none', lg: 'flex' }}
       />
       <MenuList>
-        <MenuGroup title={accountTitle as string}>
+        <MenuGroup title={sessionData?.user?.name || t('account') || undefined}>
           <MenuItem
             icon={<HiOutlineLogout fontSize="20px" />}
             onClick={() => void signOut({ callbackUrl: '/' })}
@@ -53,7 +51,7 @@ export const UserMenuButton: FC = () => {
         </MenuGroup>
         <MenuDivider />
         <MenuOptionGroup
-          title={t('language')}
+          title={t('language') || undefined}
           defaultValue={router.locale || Locale.En}
         >
           <MenuItemOption
