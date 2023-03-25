@@ -28,8 +28,9 @@ yarn-error.log*
 
 # local env files
 # do not commit any .env files to git, except for the .env.example file. https://create.t3.gg/en/usage/env-variables#using-environment-variables
-.env.development
-.env*.local
+.env
+# .env.production might be used to connect to production database using prisma studio
+.env.production
 
 # vercel
 .vercel
