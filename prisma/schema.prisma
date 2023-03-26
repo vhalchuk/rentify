@@ -59,16 +59,16 @@ model VerificationToken {
 }
 
 model Property {
-  id        String         @id @default(cuid())
-  name      String
-  status    PropertyStatus @default(NOT_RENTED)
-  ownerName String?
-  ownerId   String?
-  owner     User?          @relation("PropertyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
-  managerId String?
-  manager   User?          @relation("PropertyManager", fields: [managerId], references: [id], onDelete: Cascade)
-  expenses  Expense[]
-  bookings  Booking[]
+  id                    String         @id @default(cuid())
+  name                  String
+  status                PropertyStatus @default(NOT_RENTED)
+  unregisteredOwnerName String? // Use this field when there's no registered owner
+  registeredOwnerId     String? // Foreign key referencing User model
+  registeredOwner       User?          @relation("PropertyOwner", fields: [registeredOwnerId], references: [id], onDelete: Cascade)
+  managerId             String?
+  manager               User?          @relation("PropertyManager", fields: [managerId], references: [id], onDelete: Cascade)
+  expenses              Expense[]
+  bookings              Booking[]
 }
 
 model Expense {

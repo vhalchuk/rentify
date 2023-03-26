@@ -1,8 +1,5 @@
-import { exec as childProcessExec } from 'child_process'
-import { promisify } from 'util'
-
-const exec = promisify(childProcessExec)
+import { shutDown } from './utils'
 
 export default async function globalTeardown() {
-  await exec('docker-compose down')
+  await shutDown()
 }

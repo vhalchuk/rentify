@@ -1,10 +1,9 @@
-import { exec as childProcessExec } from 'child_process'
+import { execSync } from 'child_process'
+import dockerCompose from 'docker-compose'
 import dotenv from 'dotenv'
-import { promisify } from 'util'
+import { shutDown } from './utils'
 
 dotenv.config({ path: '.env.test' })
-
-const exec = promisify(childProcessExec)
 
 function wait(milliseconds: number) {
   return new Promise<void>((resolve) => {
@@ -21,7 +20,7 @@ export default async function globalSetup() {
   console.log(gray, '\nRunning global setup for integration tests')
 
   try {
-    await exec('docker-compose up -d')
+    await dockerCompose.upAll()
     console.log(green, 'Docker container has been started')
   } catch (error) {
     throw new Error('Could not start docker container')
@@ -32,9 +31,9 @@ export default async function globalSetup() {
 
   while (connectionAttemptsLeft > 0 && !isDbReady) {
     try {
-      await exec('npx prisma db push')
-      console.log(green, 'Database has been successfully pushed')
+      execSync('npx prisma db push --force-reset')
       isDbReady = true
+      console.log(green, 'Database has been successfully pushed')
     } catch (error) {
       console.log(gray, 'Database is not yet ready, waiting for 5 seconds')
       connectionAttemptsLeft--
@@ -43,7 +42,7 @@ export default async function globalSetup() {
   }
 
   if (connectionAttemptsLeft === 0 && !isDbReady) {
-    await exec('docker-compose down')
-    throw new Error('Could not push database')
+    await shutDown()
+    throw new Error('Could not connect to a database')
   }
 }
