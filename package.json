@@ -8,7 +8,7 @@
     "pscale:dev": "pscale connect rentify dev --port 3309",
     "test:integration": "jest --config=jest-integration.config.ts",
     "postinstall": "prisma generate",
-    "lint": "next lint",
+    "lint": "SKIP_ENV_VALIDATION=true next lint",
     "start": "next start",
     "format": "prettier --write --ignore-unknown .",
     "depcruise:lint": "npx depcruise --config .dependency-cruiser.js src",
