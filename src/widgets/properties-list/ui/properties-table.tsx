@@ -32,18 +32,29 @@ export const PropertiesTable: FC<PropertiesTableProps> = ({ items }) => {
         </Thead>
         <Tbody>
           {items &&
-            items.map(({ id, name, status, ownerName, owner, manager }) => {
-              return (
-                <Tr key={id}>
-                  <Td>{name}</Td>
-                  <Td>
-                    <PropertyStatus status={status} />
-                  </Td>
-                  <Td>{ownerName || owner?.name || '-'}</Td>
-                  <Td>{manager?.name || '-'}</Td>
-                </Tr>
-              )
-            })}
+            items.map(
+              ({
+                id,
+                name,
+                status,
+                unregisteredOwnerName,
+                registeredOwnerName,
+                managerName,
+              }) => {
+                return (
+                  <Tr key={id}>
+                    <Td>{name}</Td>
+                    <Td>
+                      <PropertyStatus status={status} />
+                    </Td>
+                    <Td>
+                      {unregisteredOwnerName || registeredOwnerName || '-'}
+                    </Td>
+                    <Td>{managerName || '-'}</Td>
+                  </Tr>
+                )
+              }
+            )}
         </Tbody>
       </Table>
     </TableContainer>

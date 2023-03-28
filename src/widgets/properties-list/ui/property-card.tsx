@@ -29,7 +29,13 @@ type PropertyCardProps = {
 }
 
 export const PropertyCard: FC<PropertyCardProps> = ({
-  item: { name, status, ownerName, owner, manager },
+  item: {
+    name,
+    status,
+    unregisteredOwnerName,
+    registeredOwnerName,
+    managerName,
+  },
 }) => {
   const { t } = useTranslation('common')
   const { isOpen, onToggle } = useDisclosure()
@@ -59,11 +65,13 @@ export const PropertyCard: FC<PropertyCardProps> = ({
             <Stack>
               <Flex justifyContent="space-between" flexGrow={1}>
                 <span>{t('owner')}</span>
-                <Text fontWeight="bold">{ownerName || owner?.name || '-'}</Text>
+                <Text fontWeight="bold">
+                  {unregisteredOwnerName || registeredOwnerName || '-'}
+                </Text>
               </Flex>
               <Flex justifyContent="space-between" flexGrow={1}>
                 <span>{t('manager')}</span>
-                <Text fontWeight="bold">{manager?.name || '-'}</Text>
+                <Text fontWeight="bold">{managerName || '-'}</Text>
               </Flex>
             </Stack>
           </Collapse>
