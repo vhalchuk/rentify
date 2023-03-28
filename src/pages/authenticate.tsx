@@ -52,8 +52,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   }
 
-  console.log('context', context)
-
   return {
     props: {},
   }
