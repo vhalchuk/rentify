@@ -10,6 +10,8 @@ import { Logo } from '~/shared/icons/logo'
 import { Header } from '~/shared/pageLayout/ui/header'
 import { type WithLocale } from '~/shared/types/locale'
 
+const fail: number = '0'
+
 const Page: NextPageWithLayout = () => {
   const { t } = useTranslation()
   const session = useSession()
