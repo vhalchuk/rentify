@@ -20,7 +20,7 @@ const Page: NextPageWithLayout = () => {
       <HStack gap={2}>
         <Logo />
         <Heading as="h1" fontSize="2rem" color="green.500">
-          Rentify
+          Rentify:test
         </Heading>
       </HStack>
       <Box ml="auto">
