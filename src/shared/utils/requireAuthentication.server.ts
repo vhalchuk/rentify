@@ -1,7 +1,7 @@
 import { type GetServerSidePropsContext } from 'next'
 import { type Session } from 'next-auth'
-import { getSession } from 'next-auth/react'
 import { type GetServerSidePropsResult } from 'next/types'
+import { getServerAuthSession } from '~/shared/api/auth.server'
 
 export const requireAuthentication = async (
   context: GetServerSidePropsContext,
@@ -9,15 +9,12 @@ export const requireAuthentication = async (
     session: Session
   ) => Promise<GetServerSidePropsResult<Record<string, unknown>>>
 ) => {
-  const session = await getSession(context)
+  const session = await getServerAuthSession(context)
 
   if (!session) {
-    const requestedUrl = context.req.url
-    const redirectURL = encodeURIComponent(requestedUrl || '')
-
     return {
       redirect: {
-        destination: `/authenticate?redirectURL=${redirectURL}`,
+        destination: `/api/auth/signin`,
         permanent: false,
       },
     }

@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  seed     = "node prisma/seed.${env:SEED_ENV}.ts"
 }
 
 datasource db {
@@ -44,6 +45,7 @@ model User {
   email             String?    @unique
   emailVerified     DateTime?
   image             String?
+  password          String?
   accounts          Account[]
   sessions          Session[]
   properties        Property[] @relation("PropertyOwner")
