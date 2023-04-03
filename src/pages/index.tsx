@@ -1,4 +1,4 @@
-import { Box, Button, Heading, HStack } from '@chakra-ui/react'
+import { Box, Button, Flex, Heading, HStack } from '@chakra-ui/react'
 import { type GetServerSidePropsContext } from 'next'
 import { signIn, useSession } from 'next-auth/react'
 import { useTranslation } from 'next-i18next'
@@ -8,6 +8,7 @@ import { BsGoogle } from 'react-icons/all'
 import { type NextPageWithLayout } from '~/pages/_app'
 import { Logo } from '~/shared/icons/logo'
 import { Header } from '~/shared/pageLayout/ui/header'
+import { UserMenuButton } from '~/shared/pageLayout/ui/user-menu-button'
 import { type WithLocale } from '~/shared/types/locale'
 
 const Page: NextPageWithLayout = () => {
@@ -25,7 +26,12 @@ const Page: NextPageWithLayout = () => {
       </HStack>
       <Box ml="auto">
         {authenticated ? (
-          <NextLink href="/dashboard" />
+          <Flex gap={3}>
+            <Button as={NextLink} href="/dashboard" variant="ghost">
+              {t('dashboard')}
+            </Button>
+            <UserMenuButton />
+          </Flex>
         ) : (
           <Button
             leftIcon={<BsGoogle />}

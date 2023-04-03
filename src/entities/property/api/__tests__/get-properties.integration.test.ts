@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { describe } from '@jest/globals'
+import { describe, expect } from '@jest/globals'
 import {
   createCaller,
   deleteProperty,
