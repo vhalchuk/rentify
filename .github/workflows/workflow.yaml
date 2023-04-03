@@ -37,7 +37,7 @@ jobs:
       - name: Shutdown Ubuntu MySQL (SUDO)
         run: sudo service mysql stop
 
-      - name: Run database
+      - name: Setup database
         run: npm run test:db-up
 
       - name: Run e2e tests
