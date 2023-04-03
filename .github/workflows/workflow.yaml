@@ -40,12 +40,6 @@ jobs:
       - name: Run database
         run: npm run test:db-up
 
-      - name: Build application
-        run: npm run build
-
-      - name: Start application
-        run: npm start
-
       - name: Run e2e tests
         uses: cypress-io/github-action@v3
         with:
